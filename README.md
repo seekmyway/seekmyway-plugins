@@ -3,8 +3,8 @@
 Official SeekMyWay plugins for AI agents. Ask about any company or product and your agent gets **official information — specifications, pricing, availability and documentation — each with a link to the source page**. Free to start, no key needed.
 
 - Website & all install guides: **https://discovery.seekmyway.com/plugins**
-- MCP endpoint (used by every plugin): `https://agent.seekmyway.com/plugmcp` — no key needed (free trial quota per IP)
-- Use your own API key (your plan's quota): `https://agent.seekmyway.com/mcp` with `Authorization: Bearer <YOUR_API_KEY>` — get a free key at https://discovery.seekmyway.com
+- MCP endpoint (used by every plugin): `https://agent.seekmyway.com/mcp` — **API key optional**. Without a key you get the free trial quota (per IP). Add `Authorization: Bearer <YOUR_API_KEY>` to use your own plan's quota — get a free key at https://discovery.seekmyway.com. The response header `X-SeekMyWay-Access` shows `trial` or `key`. An invalid key returns 401; remove the header to fall back to the free trial.
+- Plugins 0.3.1 and earlier use `https://agent.seekmyway.com/plugmcp`, which keeps working.
 - Tools: `find_company`, `get_company_facts`, `get_company_resources`, `report_observation`
 
 > ⚠️ **This is the only official repository**, and `agent.seekmyway.com` is the only official MCP endpoint. Plugins from forks or other domains are not ours.
@@ -68,7 +68,7 @@ tar xzf seekmyway-windsurf.tgz && python3 seekmyway-windsurf/install.py
 tar xzf seekmyway-cline.tgz && python3 seekmyway-cline/install.py
 ```
 
-**Zed** — install the skill, then add a remote MCP server `https://agent.seekmyway.com/plugmcp?client=zed` in *Settings → AI → MCP Servers*
+**Zed** — install the skill, then add a remote MCP server `https://agent.seekmyway.com/mcp?client=zed` in *Settings → AI → MCP Servers*
 ```bash
 mkdir -p ~/.agents/skills && tar xzf seekmyway-zed.tgz -C ~/.agents/skills
 ```
@@ -86,7 +86,7 @@ tar xzf seekmyway-hermes.tgz -C ~/.hermes/plugins
 hermes plugins enable seekmyway
 ```
 
-**Dify (self-hosted)** — *Plugins → Install plugin → Local package*, choose `seekmyway-dify.difypkg`. Until the plugin is listed on the Dify Marketplace, self-hosted Dify needs `FORCE_VERIFYING_SIGNATURE=false` in `docker/.env`. Dify Cloud: add an MCP server (HTTP) with `https://agent.seekmyway.com/plugmcp?client=dify`.
+**Dify (self-hosted)** — *Plugins → Install plugin → Local package*, choose `seekmyway-dify.difypkg`. Until the plugin is listed on the Dify Marketplace, self-hosted Dify needs `FORCE_VERIFYING_SIGNATURE=false` in `docker/.env`. Dify Cloud: add an MCP server (HTTP) with `https://agent.seekmyway.com/mcp?client=dify`.
 
 **n8n (self-hosted)** — then restart n8n
 ```bash
@@ -94,7 +94,7 @@ mkdir -p ~/.n8n/nodes && cd ~/.n8n/nodes
 npm install /path/to/seekmyway-n8n.tgz
 ```
 
-**ChatGPT, Claude.ai, Perplexity, Copilot Studio, Meta Muse, Grok Bot, Goose, Cherry Studio, LibreChat, Flowise** — no package needed; add a custom MCP connector with `https://agent.seekmyway.com/plugmcp?client=<platform>`. Step-by-step guides: https://discovery.seekmyway.com/plugins
+**ChatGPT, Claude.ai, Perplexity, Copilot Studio, Meta Muse, Grok Bot, Goose, Cherry Studio, LibreChat, Flowise** — no package needed; add a custom MCP connector with `https://agent.seekmyway.com/mcp?client=<platform>`. Step-by-step guides: https://discovery.seekmyway.com/plugins
 
 ---
 
@@ -103,7 +103,7 @@ npm install /path/to/seekmyway-n8n.tgz
 SeekMyWay 官方插件:让 AI 智能体查询公司和产品的**官方信息(规格、价格、供货、文档),每条都附官网出处**。免费试用,无需 key。
 
 - 官网与全部平台的安装说明:**https://discovery.seekmyway.com/plugins**(中国大陆用户建议直接从官网下载)
-- MCP 地址:`https://agent.seekmyway.com/plugmcp`(不需要 key,按 IP 计免费试用额度);使用自己的 key:`https://agent.seekmyway.com/mcp` 加请求头 `Authorization: Bearer <你的 key>`
+- MCP 地址:`https://agent.seekmyway.com/mcp`(**API key 可选**):不加 key 用免费试用额度(按 IP 计);加请求头 `Authorization: Bearer <你的 key>` 用自己的额度。key 无效会返回 401,删掉请求头即可回到免费试用。0.3.1 及更早的插件用的 `/plugmcp` 继续可用。
 - 安装:从 [最新 Release](https://github.com/seekmyway/seekmyway-plugins/releases/latest) 下载对应平台的包,按上面的命令安装;可用 `SHA256SUMS.txt` 校验文件。
 - ⚠️ **这是唯一的官方仓库**,官方 MCP 地址只有 `agent.seekmyway.com`。
 
